@@ -11,41 +11,39 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-//@Primary
-public class UserServiceImp implements UserService {
+@Primary
+//@Transactional
+public class UserServiceImpEM implements UserService {
 
     @Autowired
-    @Qualifier("userDaoImp")
+    @Qualifier("userDaoImpEM")
     private UserDao userDao;
 
-    @Transactional
     @Override
+    @Transactional
     public void add(User user) {
         userDao.add(user);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<User> listUsers() {
         return userDao.listUsers();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void removeUserById(long id) {
         userDao.removeUserById(id);
     }
 
-    @Transactional
     @Override
     public User getUserById(long id) {
         return userDao.getUserById(id);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void update(long id, User user) {
         userDao.update(id, user);
     }
-
 }

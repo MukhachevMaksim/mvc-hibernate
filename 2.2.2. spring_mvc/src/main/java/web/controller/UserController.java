@@ -1,6 +1,7 @@
 package web.controller;
 
 import hiber.config.AppConfig;
+import hiber.config.DatabaseConfig;
 import hiber.model.User;
 import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -14,8 +15,10 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private final AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
+//    private final AnnotationConfigApplicationContext context =
+//                new AnnotationConfigApplicationContext(AppConfig.class);
+private final AnnotationConfigApplicationContext context =
+        new AnnotationConfigApplicationContext(DatabaseConfig.class);
     private final UserService userService = context.getBean(UserService.class);
 
     @GetMapping(value = "/users")

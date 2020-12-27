@@ -25,8 +25,8 @@ public class MainApp {
 //        User user1 = userService.getUserById(3);
 //        System.out.println(user1.toString());
 
-        User user2 = new User("Vlad", "A4", "bumaga@gmail.com");
-        userService.update(4, user2);
+//        User user2 = new User("Vlad", "A4", "bumaga@gmail.com");
+//        userService.update(4, user2);
         System.out.println(userService.getUserById(4));
 
 //        List<User> users = userService.listUsers();
