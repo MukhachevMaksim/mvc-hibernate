@@ -1,33 +1,24 @@
 package hiber;
 
-import hiber.config.AppConfig;
+import hiber.config.DatabaseConfig;
 import hiber.model.User;
 import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class MainApp {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
+                new AnnotationConfigApplicationContext(DatabaseConfig.class);
 
         UserService userService = context.getBean(UserService.class);
 
-//        userService.add(new User("User1", "Lastname1", "user1@mail.ru"));
-//        userService.add(new User("User2", "Lastname2", "user2@mail.ru"));
-//        userService.add(new User("User3", "Lastname3", "user3@mail.ru"));
-//        userService.add(new User("User4", "Lastname4", "user4@mail.ru"));
+        User user1 = new User("Greta", "Thunberg", "alive@gmail.com");
+        userService.update(11, user1);
+//        userService.add(user1);
 
-//        userService.removeUserById(5);
-
-//        User user1 = userService.getUserById(3);
-//        System.out.println(user1.toString());
-
-//        User user2 = new User("Vlad", "A4", "bumaga@gmail.com");
-//        userService.update(4, user2);
-        System.out.println(userService.getUserById(4));
+//        userService.removeUserById(14);
 
 //        List<User> users = userService.listUsers();
 //        for (User user : users) {
@@ -37,6 +28,11 @@ public class MainApp {
 //            System.out.println("Email = "+user.getEmail());
 //            System.out.println();
 //        }
+//
+//        userService.removeUserById(22);
+
+        System.out.println(userService.getUserById(6));
+        System.out.println(userService.getUserById(11));
 
         context.close();
     }

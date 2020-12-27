@@ -1,49 +1,45 @@
 package hiber.dao;
 
 import hiber.model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext(unitName = "entityManagerFactory")
+    private EntityManager entityManager;
 
     @Override
     public void add(User user) {
-        sessionFactory.getCurrentSession().save(user);
+        entityManager.persist(user);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> listUsers() {
-        TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
-        return query.getResultList();
+        return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
     public void removeUserById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(session.get(User.class, id));
+        entityManager.remove(entityManager.find(User.class, id));
     }
 
     @Override
     public User getUserById(long id) {
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public void update(long id, User user) {
-        String sql = "UPDATE users SET name = '" + user.getFirstName()
-        + "', last_name = '" + user.getLastName()
-        + "', email = '" + user.getEmail() + "' WHERE id = " + id + ";";
-        sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+        Query query = entityManager.createQuery("UPDATE User x SET x.firstName = '" + user.getFirstName()
+                + "', x.lastName = '" + user.getLastName()
+                + "', x.email = '" + user.getEmail() + "' WHERE x.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
-
 }
